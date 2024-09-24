@@ -59,15 +59,15 @@ export default {
   methods: {
     selectNextHead(direction = "increment") {
       this.currentHeadIndex =
-        direction === "increment"
-          ? this.currentHeadIndex++
-          : this.currentHeadIndex--;
+        direction == "increment"
+          ? this.currentHeadIndex + 1
+          : this.currentHeadIndex - 1;
 
       if (this.currentHeadIndex == -1) {
-        this.currentHeadIndex = this.availableParts.heads.length;
+        this.currentHeadIndex = this.availableParts.heads.length - 1;
       }
 
-      if (this.currentHeadIndex > this.availableParts.heads.length) {
+      if (this.currentHeadIndex > this.availableParts.heads.length - 1) {
         this.currentHeadIndex = 0;
       }
     },
