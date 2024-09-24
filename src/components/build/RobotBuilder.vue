@@ -36,6 +36,11 @@
 <script>
 export default {
   name: "RobotBuilder",
+  data() {
+    return {
+      imageUrl: "",
+    };
+  },
 };
 </script>
 <style>
