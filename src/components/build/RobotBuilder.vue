@@ -2,9 +2,22 @@
   <div>
     <div class="top-row">
       <div class="top part">
-        <img :src="availableParts.heads[0].imageUrl" alt="head" />
-        <button class="prev-selector">&#9668;</button>
-        <button class="next-selector">&#9658;</button>
+        <img
+          :src="availableParts.heads[currentHeadIndex].imageUrl"
+          alt="head"
+        />
+        <button
+          class="prev-selector"
+          @click.prevent="selectNextHead('decrement')"
+        >
+          &#9668;
+        </button>
+        <button
+          class="next-selector"
+          @click.prevent="selectNextHead('increment')"
+        >
+          &#9658;
+        </button>
       </div>
     </div>
     <div class="middle-row">
@@ -40,7 +53,26 @@ export default {
   data() {
     return {
       availableParts: parts,
+      currentHeadIndex: 0,
     };
+  },
+  methods: {
+    selectNextHead(direction = "increment") {
+      this.currentHeadIndex =
+        direction === "increment"
+          ? this.currentHeadIndex++
+          : this.currentHeadIndex--;
+
+      if (this.currentHeadIndex == -1) {
+        this.currentHeadIndex = this.availableParts.heads.length;
+      }
+
+      if (this.currentHeadIndex > this.availableParts.heads.length) {
+        this.currentHeadIndex = 0;
+      }
+    },
+    selectNextArm() {},
+    selectNextBase() {},
   },
 };
 </script>
