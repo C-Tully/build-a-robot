@@ -1,4 +1,5 @@
-const images = require.context("./images", true, /\.png$/);
+//the require.context leverages webpack to create awareness so it can bundle them correctly.
+const images = require.context("@/assets/images", true, /\.png$/);
 
 const parts = {
   heads: [
