@@ -3,7 +3,7 @@
     <div>
       <img
         class="robot"
-        src="../assets/robot-home.png"
+        src="@/assets/images/robot-home.png"
         aria-hidden="true"
         alt="Robot"
       />

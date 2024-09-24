@@ -3,24 +3,31 @@
     <nav>
       <ul>
         <li class="nav-item">
-          <img class="logo" src="./assets/build-a-bot-logo.png" alt="logo" />
+          <img
+            class="logo"
+            src="@/assets/images/build-a-bot-logo.png"
+            alt="logo"
+          />
           Build-a-bot
         </li>
       </ul>
     </nav>
   </header>
   <main>
-    <HomePage msg="Welcome to Your Vue.js App" />
+    <!-- <HomePage msg="Welcome to Your Vue.js App" /> -->
+    <RobotBuilder />
   </main>
 </template>
 
 <script>
-import HomePage from "./components/HomePage.vue";
+// import HomePage from "./components/home/HomePage.vue";
+import RobotBuilder from "./components/build/RobotBuilder.vue";
 
 export default {
   name: "App",
   components: {
-    HomePage,
+    // HomePage,
+    RobotBuilder,
   },
 };
 </script>
