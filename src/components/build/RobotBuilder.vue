@@ -22,24 +22,40 @@
     </div>
     <div class="middle-row">
       <div class="left part">
-        <img :src="availableParts.arms[0].imageUrl" alt="left arm" />
-        <button class="prev-selector">&#9650;</button>
-        <button class="next-selector">&#9660;</button>
+        <img
+          :src="availableParts.arms[currentLeftArmIndex].imageUrl"
+          alt="left arm"
+        />
+        <button class="prev-selector" @click.prevent="selectPreviousLeftArm()">
+          &#9650;
+        </button>
+        <button class="next-selector" @click.prevent="selectNextLeftArm()">
+          &#9660;
+        </button>
       </div>
       <div class="center part">
-        <img :src="availableParts.torsos[0].imageUrl" alt="torso" />
+        <img
+          :src="availableParts.torsos[currentTorsoIndex].imageUrl"
+          alt="torso"
+        />
         <button class="prev-selector">&#9668;</button>
         <button class="next-selector">&#9658;</button>
       </div>
       <div class="right part">
-        <img :src="availableParts.arms[0].imageUrl" alt="right arm" />
+        <img
+          :src="availableParts.arms[currentRightArmIndex].imageUrl"
+          alt="right arm"
+        />
         <button class="prev-selector">&#9650;</button>
         <button class="next-selector">&#9660;</button>
       </div>
     </div>
     <div class="bottom-row">
       <div class="bottom part">
-        <img :src="availableParts.bases[0].imageUrl" alt="base" />
+        <img
+          :src="availableParts.bases[currentBaseIndex].imageUrl"
+          alt="base"
+        />
         <button class="prev-selector">&#9668;</button>
         <button class="next-selector">&#9658;</button>
       </div>
@@ -48,15 +64,37 @@
 </template>
 <script>
 import parts from "@/data/parts";
+
+//Chris note:: IMO these should be moved into a utility file if they're used else where.
+//For now they're just private functions.
+/**
+function getNextValidIndex(index, length) {
+  const incrementedIndex = index + 1;
+  return incrementedIndex > length - 1 ? 0 : incrementedIndex;
+}
+
+function getPreviousValidIndex(index, length) {
+  const deprecatedIndex = index - 1;
+  return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
+}
+*/
+
 export default {
   name: "RobotBuilder",
   data() {
     return {
       availableParts: parts,
       currentHeadIndex: 0,
+      currentLeftArmIndex: 0,
+      currentRightArmIndex: 0,
+      currentBaseIndex: 0,
+      currentTorsoIndex: 0,
     };
   },
   methods: {
+    //Chris Note: One of my key goals when it comes to functions is to ensure the cognitive complexity
+    // stays belowe a threshold of 15.
+    //In the tutorial the tutor creates a function each section and does a next/previous function.
     selectNextHead(direction = "increment") {
       this.currentHeadIndex =
         direction == "increment"
@@ -71,7 +109,22 @@ export default {
         this.currentHeadIndex = 0;
       }
     },
-    selectNextArm() {},
+    selectNextLeftArm() {},
+    selectPreviousLeftArm() {},
+    selectNextRightArm(direction = "increment") {
+      this.currentRightArmIndex =
+        direction == "increment"
+          ? this.currentRightArmIndex + 1
+          : this.currentRightArmIndex - 1;
+
+      if (this.currentRightArmIndex == -1) {
+        this.currentRightArmIndex = this.availableParts.arms.length - 1;
+      }
+
+      if (this.currentRightArmIndex > this.availableParts.arms.length - 1) {
+        this.currentRightArmIndex = 0;
+      }
+    },
     selectNextBase() {},
   },
 };
