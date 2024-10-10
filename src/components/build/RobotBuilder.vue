@@ -2,10 +2,7 @@
   <div>
     <div class="top-row">
       <div class="top part">
-        <img
-          :src="availableParts.heads[currentHeadIndex].imageUrl"
-          alt="head"
-        />
+        <img :src="selectedRobot.head.imageUrl" alt="head" />
         <button
           class="prev-selector"
           @click.prevent="selectNextHead('decrement')"
@@ -22,10 +19,7 @@
     </div>
     <div class="middle-row">
       <div class="left part">
-        <img
-          :src="availableParts.arms[currentLeftArmIndex].imageUrl"
-          alt="left arm"
-        />
+        <img :src="selectedRobot.leftArm.imageUrl" alt="left arm" />
         <button
           class="prev-selector"
           @click.prevent="selectNextLeftArm('decrement')"
@@ -40,10 +34,7 @@
         </button>
       </div>
       <div class="center part">
-        <img
-          :src="availableParts.torsos[currentTorsoIndex].imageUrl"
-          alt="torso"
-        />
+        <img :src="selectedRobot.torso.imageUrl" alt="torso" />
         <button
           class="prev-selector"
           @click.prevent="selectNextTorso('decrement')"
@@ -58,10 +49,7 @@
         </button>
       </div>
       <div class="right part">
-        <img
-          :src="availableParts.arms[currentRightArmIndex].imageUrl"
-          alt="right arm"
-        />
+        <img :src="selectedRobot.rightArm.imageUrl" alt="right arm" />
         <button
           class="prev-selector"
           @click.prevent="selectNextRightArm('decrement')"
@@ -78,10 +66,7 @@
     </div>
     <div class="bottom-row">
       <div class="bottom part">
-        <img
-          :src="availableParts.bases[currentBaseIndex].imageUrl"
-          alt="base"
-        />
+        <img :src="selectedRobot.base.imageUrl" alt="base" />
         <button
           class="prev-selector"
           @click.prevent="selectNextBase('decrement')"
@@ -125,6 +110,17 @@ export default {
       currentBaseIndex: 0,
       currentTorsoIndex: 0,
     };
+  },
+  computed: {
+    selectedRobot() {
+      return {
+        head: this.availableParts.heads[this.currentHeadIndex],
+        leftArm: this.availableParts.arms[this.currentLeftArmIndex],
+        rightArm: this.availableParts.arms[this.currentRightArmIndex],
+        torso: this.availableParts.torsos[this.currentTorsoIndex],
+        base: this.availableParts.bases[this.currentBaseIndex],
+      };
+    },
   },
   methods: {
     //Chris Note: One of my key goals when it comes to functions is to ensure the cognitive complexity
