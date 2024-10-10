@@ -26,10 +26,16 @@
           :src="availableParts.arms[currentLeftArmIndex].imageUrl"
           alt="left arm"
         />
-        <button class="prev-selector" @click.prevent="selectPreviousLeftArm()">
+        <button
+          class="prev-selector"
+          @click.prevent="selectNextLeftArm('decrement')"
+        >
           &#9650;
         </button>
-        <button class="next-selector" @click.prevent="selectNextLeftArm()">
+        <button
+          class="next-selector"
+          @click.prevent="selectNextLeftArm('increment')"
+        >
           &#9660;
         </button>
       </div>
@@ -38,16 +44,36 @@
           :src="availableParts.torsos[currentTorsoIndex].imageUrl"
           alt="torso"
         />
-        <button class="prev-selector">&#9668;</button>
-        <button class="next-selector">&#9658;</button>
+        <button
+          class="prev-selector"
+          @click.prevent="selectNextTorso('decrement')"
+        >
+          &#9668;
+        </button>
+        <button
+          class="next-selector"
+          @click.prevent="selectNextTorso('increment')"
+        >
+          &#9658;
+        </button>
       </div>
       <div class="right part">
         <img
           :src="availableParts.arms[currentRightArmIndex].imageUrl"
           alt="right arm"
         />
-        <button class="prev-selector">&#9650;</button>
-        <button class="next-selector">&#9660;</button>
+        <button
+          class="prev-selector"
+          @click.prevent="selectNextRightArm('decrement')"
+        >
+          &#9650;
+        </button>
+        <button
+          class="next-selector"
+          @click.prevent="selectNextRightArm('increment')"
+        >
+          &#9660;
+        </button>
       </div>
     </div>
     <div class="bottom-row">
@@ -56,8 +82,18 @@
           :src="availableParts.bases[currentBaseIndex].imageUrl"
           alt="base"
         />
-        <button class="prev-selector">&#9668;</button>
-        <button class="next-selector">&#9658;</button>
+        <button
+          class="prev-selector"
+          @click.prevent="selectNextBase('decrement')"
+        >
+          &#9668;
+        </button>
+        <button
+          class="next-selector"
+          @click.prevent="selectNextBase('increment')"
+        >
+          &#9658;
+        </button>
       </div>
     </div>
   </div>
@@ -67,7 +103,7 @@ import parts from "@/data/parts";
 
 //Chris note:: IMO these should be moved into a utility file if they're used else where.
 //For now they're just private functions.
-/**
+
 function getNextValidIndex(index, length) {
   const incrementedIndex = index + 1;
   return incrementedIndex > length - 1 ? 0 : incrementedIndex;
@@ -77,7 +113,6 @@ function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
   return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
 }
-*/
 
 export default {
   name: "RobotBuilder",
@@ -95,37 +130,85 @@ export default {
     //Chris Note: One of my key goals when it comes to functions is to ensure the cognitive complexity
     // stays belowe a threshold of 15.
     //In the tutorial the tutor creates a function each section and does a next/previous function.
+    // selectNextHead(direction = "increment") {
+    //   this.currentHeadIndex =
+    //     direction == "increment"
+    //       ? this.currentHeadIndex + 1
+    //       : this.currentHeadIndex - 1;
+
+    //   if (this.currentHeadIndex == -1) {
+    //     this.currentHeadIndex = this.availableParts.heads.length - 1;
+    //   }
+
+    //   if (this.currentHeadIndex > this.availableParts.heads.length - 1) {
+    //     this.currentHeadIndex = 0;
+    //   }
+    // },
     selectNextHead(direction = "increment") {
-      this.currentHeadIndex =
-        direction == "increment"
-          ? this.currentHeadIndex + 1
-          : this.currentHeadIndex - 1;
-
-      if (this.currentHeadIndex == -1) {
-        this.currentHeadIndex = this.availableParts.heads.length - 1;
-      }
-
-      if (this.currentHeadIndex > this.availableParts.heads.length - 1) {
-        this.currentHeadIndex = 0;
+      if (direction.toLowerCase() == "increment") {
+        this.currentHeadIndex = getNextValidIndex(
+          this.currentHeadIndex,
+          this.availableParts.heads.length
+        );
+      } else {
+        this.currentHeadIndex = getPreviousValidIndex(
+          this.currentHeadIndex,
+          this.availableParts.heads.length
+        );
       }
     },
-    selectNextLeftArm() {},
-    selectPreviousLeftArm() {},
+    selectNextLeftArm(direction = "increment") {
+      if (direction.toLowerCase() == "increment") {
+        this.currentLeftArmIndex = getNextValidIndex(
+          this.currentLeftArmIndex,
+          this.availableParts.heads.length
+        );
+      } else {
+        this.currentLeftArmIndex = getPreviousValidIndex(
+          this.currentLeftArmIndex,
+          this.availableParts.heads.length
+        );
+      }
+    },
     selectNextRightArm(direction = "increment") {
-      this.currentRightArmIndex =
-        direction == "increment"
-          ? this.currentRightArmIndex + 1
-          : this.currentRightArmIndex - 1;
-
-      if (this.currentRightArmIndex == -1) {
-        this.currentRightArmIndex = this.availableParts.arms.length - 1;
-      }
-
-      if (this.currentRightArmIndex > this.availableParts.arms.length - 1) {
-        this.currentRightArmIndex = 0;
+      if (direction.toLowerCase() == "increment") {
+        this.currentRightArmIndex = getNextValidIndex(
+          this.currentRightArmIndex,
+          this.availableParts.arms.length
+        );
+      } else {
+        this.currentRightArmIndex = getPreviousValidIndex(
+          this.currentRightArmIndex,
+          this.availableParts.arms.length
+        );
       }
     },
-    selectNextBase() {},
+    selectNextBase(direction = "increment") {
+      if (direction.toLowerCase() == "increment") {
+        this.currentBaseIndex = getNextValidIndex(
+          this.currentBaseIndex,
+          this.availableParts.bases.length
+        );
+      } else {
+        this.currentBaseIndex = getPreviousValidIndex(
+          this.currentBaseIndex,
+          this.availableParts.bases.length
+        );
+      }
+    },
+    selectNextTorso(direction = "increment") {
+      if (direction.toLowerCase() == "increment") {
+        this.currentTorsoIndex = getNextValidIndex(
+          this.currentTorsoIndex,
+          this.availableParts.torsos.length
+        );
+      } else {
+        this.currentTorsoIndex = getPreviousValidIndex(
+          this.currentTorsoIndex,
+          this.availableParts.torsos.length
+        );
+      }
+    },
   },
 };
 </script>
